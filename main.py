@@ -58,7 +58,7 @@ with st.sidebar:
         """
         <hr>
         <center>
-        <small style="color:gray;">© 2025 | Mahasiswa Indonesia | Powered by Streamlit</small>
+        <small style="color:gray;">© 2025 | Universitas Pelita Bangsa | Chaerul Hidayat & Reza Maulana | Powered by Streamlit</small>
         </center>
         """, unsafe_allow_html=True
     )
@@ -68,7 +68,7 @@ st.title("📈 Prediksi Peluang Mendapatkan Pekerjaan Setelah Lulus Kuliah")
 st.markdown("""
 ### 🧠 Tentang Model Prediksi
 
-Model yang digunakan untuk memprediksi peluang mahasiswa **ditempatkan kerja** adalah **Regresi Logistik (Logistic Regression)**.
+Model yang digunakan untuk memprediksi peluang mahasiswa **Mendapatkan Kerja Setelah Lulus** adalah **Regresi Logistik (Logistic Regression)**.
 Model ini menganalisis seberapa besar pengaruh setiap faktor (misal: IPK, magang, proyek, sertifikasi, soft skills, dsb.) terhadap peluang mahasiswa untuk berhasil mendapatkan penempatan kerja berdasarkan data riil mahasiswa.
 
 Setiap fitur memiliki bobot (koefisien) yang menunjukkan **seberapa besar kontribusinya** terhadap peluang ditempatkan kerja. Semakin besar nilai koefisien (positif), semakin besar pula pengaruh faktor tersebut dalam meningkatkan peluang penempatan kerja.
