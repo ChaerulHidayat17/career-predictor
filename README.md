@@ -1,48 +1,26 @@
-📈 Prediksi Peluang Mendapatkan Pekerjaan Setelah Lulus Kuliah
-Aplikasi ini memprediksi peluang mahasiswa untuk mendapatkan pekerjaan setelah lulus, menggunakan data akademik dan pengalaman seperti IPK, magang, proyek, sertifikasi, soft skills, dan pelatihan penempatan.
-Dibangun dengan Python, Streamlit, dan machine learning (Logistic Regression).
+# 📈 Career Predictor: Prediksi Peluang Kerja Lulusan Kuliah
 
-Fitur Utama
-Prediksi peluang kerja berbasis data mahasiswa
+Aplikasi ini memprediksi **peluang mahasiswa untuk mendapatkan pekerjaan** setelah lulus, berdasarkan data akademik dan pengalaman seperti IPK, magang, proyek, sertifikasi, dan lainnya.
 
-Input fleksibel: IPK, magang, proyek, workshop, soft skills, dsb
+> 🚀 Dibangun menggunakan **Python**, **Streamlit**, dan **Machine Learning** (Logistic Regression).
+## 🔍 Fitur Utama
 
-Tabel kontribusi faktor-faktor penting
+✅ **Prediksi peluang kerja** berbasis data mahasiswa  
+✅ **Input fleksibel**: IPK, magang, proyek, workshop, soft skills, dan lainnya  
+✅ **Tabel kontribusi** faktor-faktor penting yang mempengaruhi hasil prediksi  
+✅ **FAQ interaktif** dan **tips pengembangan diri**  
+✅ **Tampilan responsif** — nyaman diakses lewat desktop maupun mobile
 
-FAQ interaktif dan tips pengembangan diri
+## 🛠️ Cara Menjalankan
 
-Tampilan responsif, nyaman di mobile & desktop
-
-Cara Menjalankan
-Pastikan sudah install Python & Streamlit
-
-Clone repo ini, lalu jalankan:
-
-text
-streamlit run app.py
-Pastikan file Dataset_Siswa.csv ada di folder yang sama
-
-Struktur Data
-IPK_4 (skala 4.00)
-
-Internships (jumlah magang)
-
-Projects (jumlah proyek)
-
-Workshops/Certifications (jumlah sertifikasi/workshop)
-
-AptitudeTestScore (skor tes bakat)
-
-SoftSkillsRating (rating soft skill)
-
-ExtracurricularActivities (Ya/Tidak)
-
-PlacementTraining (Ya/Tidak)
-
-PlacementStatus (Placed/NotPlaced)
-
-Kontributor
-Chaerul Hidayat
-
-Reza Maulana
-
+1. Pastikan kamu sudah menginstall **Python** dan **Streamlit**
+2. Clone repository ini ke komputer kamu:
+   masuk CMD
+   👇
+   git clone https://github.com/ChaerulHidayat17/career-predictor.git
+   👇
+   cd career-predictor
+   👇
+   streamlit run main.py
+   👇
+   Pastikan file Dataset_Siswa.csv ada di folder yang sama dengan main.py
