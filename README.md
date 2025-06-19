@@ -1,4 +1,4 @@
-# 📈 Career Predictor: Prediksi Peluang Kerja Lulusan Kuliah
+# 📈 Career Predictor: Prediksi Peluang Kerja Setelah Lulus Kuliah
 
 Aplikasi ini memprediksi **peluang mahasiswa untuk mendapatkan pekerjaan** setelah lulus, berdasarkan data akademik dan pengalaman seperti IPK, magang, proyek, sertifikasi, dan lainnya.
 
