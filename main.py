@@ -24,8 +24,15 @@ feature_cols = [
 ]
 X = df[feature_cols]
 y = df['PlacementStatus']
-model = LogisticRegression(max_iter=200)
-model.fit(X, y)
+
+# --- CACHE TRAINING MODEL ---
+@st.cache_resource
+def train_model(X, y):
+    model = LogisticRegression(max_iter=200)
+    model.fit(X, y)
+    return model
+
+model = train_model(X, y)
 
 # --- SIDEBAR ---
 with st.sidebar:
@@ -146,7 +153,6 @@ if 'prediksi' in st.session_state and st.session_state['prediksi'] is not None:
 # --- FAQ INTERAKTIF DI BAWAHNYA ---
 st.markdown("---")
 st.markdown("## ❓ Tanya Jawab Seputar Peluang Kerja Setelah Lulus")
-
 faq_list = [
     {
         "q": "Apakah IPK tinggi pasti cepat dapat kerja?",
