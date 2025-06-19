@@ -14,13 +14,13 @@ Aplikasi ini memprediksi **peluang mahasiswa untuk mendapatkan pekerjaan** setel
 ## 🛠️ Cara Menjalankan
 
 1. Pastikan kamu sudah menginstall **Python** dan **Streamlit**
-2. Clone repository ini ke komputer kamu:
-   masuk CMD
+2. Clone repository ini ke komputer kamu: <br>
+   masuk CMD<br>
    👇
-   git clone https://github.com/ChaerulHidayat17/career-predictor.git
+   git clone https://github.com/ChaerulHidayat17/career-predictor.git <br>
    👇
-   cd career-predictor
+   cd career-predictor <br>
    👇
-   streamlit run main.py
+   streamlit run main.py <br>
    👇
-   Pastikan file Dataset_Siswa.csv ada di folder yang sama dengan main.py
+   Pastikan file Dataset_Siswa.csv ada di folder yang sama dengan main.py <br>
