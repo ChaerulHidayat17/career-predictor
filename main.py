@@ -5,6 +5,18 @@ from sklearn.linear_model import LogisticRegression
 
 st.set_page_config(page_title="Prediksi Peluang Kerja", page_icon="🎓", layout="centered")
 
+st.markdown(
+    """
+    <style>
+    body {
+        background-image: url("https://images.unsplash.com/photo-1508780709619-79562169bc64");
+        background-size: cover;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # --- LOAD DATA ---
 @st.cache_data
 def load_data():
@@ -48,7 +60,7 @@ with st.sidebar:
         """, unsafe_allow_html=True
     )
     st.markdown("---")
-    st.markdown("**🔍 Prediksi peluang kamu diterima kerja setelah lulus berdasarkan data akademik dan pengalaman.**")
+    st.markdown("*🔍 Prediksi peluang kamu diterima kerja setelah lulus berdasarkan data akademik dan pengalaman.*")
     st.markdown(
         """
         <ul style="padding-left: 20px;">
@@ -75,10 +87,10 @@ st.title("📈 Prediksi Peluang Mendapatkan Pekerjaan Setelah Lulus Kuliah")
 st.markdown("""
 ### 🧠 Tentang Model Prediksi
 
-Model yang digunakan untuk memprediksi peluang mahasiswa **Mendapatkan Kerja Setelah Lulus** adalah **Regresi Logistik (Logistic Regression)**.
+Model yang digunakan untuk memprediksi peluang mahasiswa *Mendapatkan Kerja Setelah Lulus* adalah *Regresi Logistik (Logistic Regression)*.
 Model ini menganalisis seberapa besar pengaruh setiap faktor (misal: IPK, magang, proyek, sertifikasi, soft skills, dsb.) terhadap peluang mahasiswa untuk berhasil mendapatkan penempatan kerja berdasarkan data riil mahasiswa.
 
-Setiap fitur memiliki bobot (koefisien) yang menunjukkan **seberapa besar kontribusinya** terhadap peluang ditempatkan kerja. Semakin besar nilai koefisien (positif), semakin besar pula pengaruh faktor tersebut dalam meningkatkan peluang penempatan kerja.
+Setiap fitur memiliki bobot (koefisien) yang menunjukkan *seberapa besar kontribusinya* terhadap peluang ditempatkan kerja. Semakin besar nilai koefisien (positif), semakin besar pula pengaruh faktor tersebut dalam meningkatkan peluang penempatan kerja.
 """)
 
 rata2 = X.mean()
@@ -127,8 +139,29 @@ with col2:
 extracurricular_val = 1 if extracurricular == 'Ya' else 0
 placement_training_val = 1 if placement_training == 'Ya' else 0
 
+# Tambahkan CSS untuk tombol berwarna
+st.markdown("""
+    <style>
+    div.stButton > button:first-child {
+        background-color: #28C76F;  /* Warna hijau segar */
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 24px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+    div.stButton > button:first-child:hover {
+        background-color: #20B160;
+        color: white;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+
 # Tombol prediksi
-if st.button("🔮 Prediksi Peluang"):
+if st.button("Prediksi Peluang"):
     input_data = np.array([[ipk, internships, projects, workshops, aptitude, softskills,
                             extracurricular_val, placement_training_val]])
     prob = model.predict_proba(input_data)[0][1]
