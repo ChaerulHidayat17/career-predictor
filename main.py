@@ -3,8 +3,10 @@ import pandas as pd
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 
-st.set_page_config(page_title="Prediksi Peluang Kerja", page_icon="🎓", layout="centered")
+# --- CONFIGURASI HALAMAN ---
+st.set_page_config(page_title="Prediksi Peluang Kerja", page_icon="🎓", layout="wide")
 
+# --- BACKGROUND CUSTOM ---
 st.markdown(
     """
     <style>
@@ -14,35 +16,44 @@ st.markdown(
     }
     </style>
     """,
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
+
 
 # --- LOAD DATA ---
 @st.cache_data
 def load_data():
     df = pd.read_csv("Dataset_Siswa.csv")
-    # Mapping nilai kategorikal
-    df['ExtracurricularActivities'] = df['ExtracurricularActivities'].map({'Yes': 1, 'No': 0})
-    df['PlacementTraining'] = df['PlacementTraining'].map({'Yes': 1, 'No': 0})
-    df['PlacementStatus'] = df['PlacementStatus'].map({'Placed': 1, 'NotPlaced': 0})
+    df["ExtracurricularActivities"] = df["ExtracurricularActivities"].map(
+        {"Yes": 1, "No": 0}
+    )
+    df["PlacementTraining"] = df["PlacementTraining"].map({"Yes": 1, "No": 0})
+    df["PlacementStatus"] = df["PlacementStatus"].map({"Placed": 1, "NotPlaced": 0})
     return df
 
-df = load_data()
 
+df = load_data()
 feature_cols = [
-    'IPK_4', 'Internships', 'Projects', 'Workshops/Certifications',
-    'AptitudeTestScore', 'SoftSkillsRating', 'ExtracurricularActivities',
-    'PlacementTraining'
+    "IPK_4",
+    "Internships",
+    "Projects",
+    "Workshops/Certifications",
+    "AptitudeTestScore",
+    "SoftSkillsRating",
+    "ExtracurricularActivities",
+    "PlacementTraining",
 ]
 X = df[feature_cols]
-y = df['PlacementStatus']
+y = df["PlacementStatus"]
 
-# --- CACHE TRAINING MODEL ---
+
+# --- TRAINING MODEL ---
 @st.cache_resource
 def train_model(X, y):
     model = LogisticRegression(max_iter=200)
     model.fit(X, y)
     return model
+
 
 model = train_model(X, y)
 
@@ -57,10 +68,13 @@ with st.sidebar:
                 Data Mining & ML
             </span>
         </div>
-        """, unsafe_allow_html=True
+        """,
+        unsafe_allow_html=True,
     )
     st.markdown("---")
-    st.markdown("*🔍 Prediksi peluang kamu diterima kerja setelah lulus berdasarkan data akademik dan pengalaman.*")
+    st.markdown(
+        "*🔍 Prediksi peluang kamu diterima kerja setelah lulus berdasarkan data akademik dan pengalaman.*"
+    )
     st.markdown(
         """
         <ul style="padding-left: 20px;">
@@ -69,7 +83,8 @@ with st.sidebar:
         <li>🤝 <b>Soft Skills & Ekstrakurikuler</b></li>
         <li>🧑‍💻 <b>Pelatihan Penempatan</b></li>
         </ul>
-        """, unsafe_allow_html=True
+        """,
+        unsafe_allow_html=True,
     )
     st.markdown("---")
     st.info("Tips: Ubah nilai input di form utama untuk simulasi peluang terbaikmu!")
@@ -79,40 +94,49 @@ with st.sidebar:
         <center>
         <small style="color:gray;">© 2025 | Universitas Pelita Bangsa | Chaerul Hidayat & Reza Maulana | Powered by Streamlit</small>
         </center>
-        """, unsafe_allow_html=True
+        """,
+        unsafe_allow_html=True,
     )
 
 # --- PENJELASAN MODEL DAN TABEL KONTRIBUSI FAKTOR ---
 st.title("📈 Prediksi Peluang Mendapatkan Pekerjaan Setelah Lulus Kuliah")
-st.markdown("""
+st.markdown(
+    """
 ### 🧠 Tentang Model Prediksi
 
 Model yang digunakan untuk memprediksi peluang mahasiswa *Mendapatkan Kerja Setelah Lulus* adalah *Regresi Logistik (Logistic Regression)*.
 Model ini menganalisis seberapa besar pengaruh setiap faktor (misal: IPK, magang, proyek, sertifikasi, soft skills, dsb.) terhadap peluang mahasiswa untuk berhasil mendapatkan penempatan kerja berdasarkan data riil mahasiswa.
 
 Setiap fitur memiliki bobot (koefisien) yang menunjukkan *seberapa besar kontribusinya* terhadap peluang ditempatkan kerja. Semakin besar nilai koefisien (positif), semakin besar pula pengaruh faktor tersebut dalam meningkatkan peluang penempatan kerja.
-""")
+"""
+)
 
 rata2 = X.mean()
 coef = pd.Series(model.coef_[0], index=feature_cols)
 kontribusi = rata2 * coef
 
 nama_fitur = {
-    'IPK_4': 'IPK (skala 4)',
-    'Internships': 'Magang',
-    'Projects': 'Proyek',
-    'Workshops/Certifications': 'Sertifikasi/Workshop',
-    'AptitudeTestScore': 'Tes Aptitude',
-    'SoftSkillsRating': 'Soft Skills',
-    'ExtracurricularActivities': 'Ekstrakurikuler',
-    'PlacementTraining': 'Pelatihan Penempatan'
+    "IPK_4": "IPK (skala 4)",
+    "Internships": "Magang",
+    "Projects": "Proyek",
+    "Workshops/Certifications": "Sertifikasi/Workshop",
+    "AptitudeTestScore": "Tes Aptitude",
+    "SoftSkillsRating": "Soft Skills",
+    "ExtracurricularActivities": "Ekstrakurikuler",
+    "PlacementTraining": "Pelatihan Penempatan",
 }
-tabel = pd.DataFrame({
-    "Faktor": [nama_fitur[x] for x in X.columns],
-    "Rata-rata Data": rata2.round(2).values,
-    "Koefisien Model": coef.round(2).values,
-    "Kontribusi": kontribusi.round(2).values
-}).sort_values("Kontribusi", ascending=False).reset_index(drop=True)
+tabel = (
+    pd.DataFrame(
+        {
+            "Faktor": [nama_fitur[x] for x in X.columns],
+            "Rata-rata Data": rata2.round(2).values,
+            "Koefisien Model": coef.round(2).values,
+            "Kontribusi": kontribusi.round(2).values,
+        }
+    )
+    .sort_values("Kontribusi", ascending=False)
+    .reset_index(drop=True)
+)
 
 st.markdown("### 🔬 Faktor-Faktor Penentu Peluang Mendapatkan Kerja")
 st.dataframe(tabel, use_container_width=True, hide_index=True)
@@ -120,30 +144,93 @@ st.dataframe(tabel, use_container_width=True, hide_index=True)
 st.markdown("---")
 st.markdown("## 🎯 Input Data Untuk Prediksi")
 
+
 def reset_prediksi():
-    st.session_state['prediksi'] = None
+    st.session_state["prediksi"] = None
+
 
 col1, col2 = st.columns(2)
 with col1:
-    ipk = st.slider('IPK (skala 4)', 0.00, 4.00, float(df['IPK_4'].mean()), 0.01, format="%.2f", key="ipk", on_change=reset_prediksi)
-    internships = st.slider('Jumlah Magang', 0, 10, int(df['Internships'].mean()), 1, key="internships", on_change=reset_prediksi)
-    projects = st.slider('Jumlah Proyek', 0, 10, int(df['Projects'].mean()), 1, key="projects", on_change=reset_prediksi)
-    workshops = st.slider('Workshop/Sertifikasi', 0, 10, int(df['Workshops/Certifications'].mean()), 1, key="workshops", on_change=reset_prediksi)
+    ipk = st.slider(
+        "IPK (skala 4)",
+        0.00,
+        4.00,
+        float(df["IPK_4"].mean()),
+        0.01,
+        format="%.2f",
+        key="ipk",
+        on_change=reset_prediksi,
+    )
+    internships = st.slider(
+        "Jumlah Magang",
+        0,
+        10,
+        int(df["Internships"].mean()),
+        1,
+        key="internships",
+        on_change=reset_prediksi,
+    )
+    projects = st.slider(
+        "Jumlah Proyek",
+        0,
+        10,
+        int(df["Projects"].mean()),
+        1,
+        key="projects",
+        on_change=reset_prediksi,
+    )
+    workshops = st.slider(
+        "Workshop/Sertifikasi",
+        0,
+        10,
+        int(df["Workshops/Certifications"].mean()),
+        1,
+        key="workshops",
+        on_change=reset_prediksi,
+    )
 with col2:
-    aptitude = st.slider('Skor Tes Aptitude (Bakat)', int(df['AptitudeTestScore'].min()), int(df['AptitudeTestScore'].max()), int(df['AptitudeTestScore'].mean()), 1, key="aptitude", on_change=reset_prediksi)
-    softskills = st.slider('Rating Soft Skills', 0.0, 5.0, float(df['SoftSkillsRating'].mean()), 0.1, format="%.1f", key="softskills", on_change=reset_prediksi)
-    extracurricular = st.selectbox('Aktif Ekstrakurikuler?', ['Tidak', 'Ya'], key="extracurricular", on_change=reset_prediksi)
-    placement_training = st.selectbox('Ikut Pelatihan Penempatan?', ['Tidak', 'Ya'], key="placement_training", on_change=reset_prediksi)
+    aptitude = st.slider(
+        "Skor Tes Aptitude (Bakat)",
+        int(df["AptitudeTestScore"].min()),
+        int(df["AptitudeTestScore"].max()),
+        int(df["AptitudeTestScore"].mean()),
+        1,
+        key="aptitude",
+        on_change=reset_prediksi,
+    )
+    softskills = st.slider(
+        "Rating Soft Skills",
+        0.0,
+        5.0,
+        float(df["SoftSkillsRating"].mean()),
+        0.1,
+        format="%.1f",
+        key="softskills",
+        on_change=reset_prediksi,
+    )
+    extracurricular = st.selectbox(
+        "Aktif Ekstrakurikuler?",
+        ["Tidak", "Ya"],
+        key="extracurricular",
+        on_change=reset_prediksi,
+    )
+    placement_training = st.selectbox(
+        "Ikut Pelatihan Penempatan?",
+        ["Tidak", "Ya"],
+        key="placement_training",
+        on_change=reset_prediksi,
+    )
 
 # Mapping input ke format model
-extracurricular_val = 1 if extracurricular == 'Ya' else 0
-placement_training_val = 1 if placement_training == 'Ya' else 0
+extracurricular_val = 1 if extracurricular == "Ya" else 0
+placement_training_val = 1 if placement_training == "Ya" else 0
 
-# Tambahkan CSS untuk tombol berwarna
-st.markdown("""
+# --- TOMBOL PREDIKSI DENGAN CSS ---
+st.markdown(
+    """
     <style>
     div.stButton > button:first-child {
-        background-color: #28C76F;  /* Warna hijau segar */
+        background-color: #28C76F;
         color: white;
         font-weight: bold;
         border: none;
@@ -157,22 +244,35 @@ st.markdown("""
         color: white;
     }
     </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
-
-# Tombol prediksi
 if st.button("Prediksi Peluang"):
-    input_data = np.array([[ipk, internships, projects, workshops, aptitude, softskills,
-                            extracurricular_val, placement_training_val]])
+    input_data = np.array(
+        [
+            [
+                ipk,
+                internships,
+                projects,
+                workshops,
+                aptitude,
+                softskills,
+                extracurricular_val,
+                placement_training_val,
+            ]
+        ]
+    )
     prob = model.predict_proba(input_data)[0][1]
-    st.session_state['prediksi'] = prob
+    st.session_state["prediksi"] = prob
 
-# Tampilkan hasil hanya jika sudah prediksi & input belum berubah
-if 'prediksi' in st.session_state and st.session_state['prediksi'] is not None:
-    prob = st.session_state['prediksi']
+if "prediksi" in st.session_state and st.session_state["prediksi"] is not None:
+    prob = st.session_state["prediksi"]
     st.markdown("## Hasil Prediksi")
-    st.progress(min(int(prob*100), 100), text="Peluang ditempatkan kerja")
-    st.markdown(f"<h2 style='color:#28C76F'>{prob*100:.1f}%</h2>", unsafe_allow_html=True)
+    st.progress(min(int(prob * 100), 100), text="Peluang ditempatkan kerja")
+    st.markdown(
+        f"<h2 style='color:#28C76F'>{prob*100:.1f}%</h2>", unsafe_allow_html=True
+    )
     if prob >= 0.8:
         st.success("Peluang sangat tinggi untuk Mendapatkan kerja! 🚀")
     elif prob >= 0.6:
@@ -181,45 +281,98 @@ if 'prediksi' in st.session_state and st.session_state['prediksi'] is not None:
         st.warning("Peluang sedang, perbanyak magang/proyek dan skill. 🔧")
     else:
         st.error("Peluang rendah, perlu pengembangan diri lebih lanjut. 📚")
-    st.caption("Simulasi ini hanya prediksi berbasis data. Hasil aktual bisa berbeda tergantung banyak faktor lain.")
+    st.caption(
+        "Simulasi ini hanya prediksi berbasis data. Hasil aktual bisa berbeda tergantung banyak faktor lain."
+    )
 
-# --- FAQ INTERAKTIF DI BAWAHNYA ---
+# --- FAQ INTERAKTIF & MODERN ---
 st.markdown("---")
 st.markdown("## ❓ Tanya Jawab Seputar Peluang Kerja Setelah Lulus")
+
+# Custom CSS untuk card FAQ
+st.markdown(
+    """
+    <style>
+    .faq-card {
+        background: #f8f9fa;
+        border-radius: 14px;
+        box-shadow: 0 2px 8px rgba(40,199,111,0.08);
+        margin-bottom: 18px;
+        padding: 18px 24px;
+        border-left: 6px solid #28C76F;
+        transition: box-shadow 0.2s;
+    }
+    .faq-card:hover {
+        box-shadow: 0 4px 24px rgba(40,199,111,0.15);
+        background: #f4fff8;
+    }
+    .faq-question {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #28C76F;
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+    }
+    .faq-answer {
+        font-size: 1rem;
+        color: #222;
+        margin-left: 2px;
+    }
+    </style>
+""",
+    unsafe_allow_html=True,
+)
+
 faq_list = [
     {
         "q": "Apakah IPK tinggi pasti cepat dapat kerja?",
-        "a": "IPK tinggi memang membantu, tapi pengalaman magang, proyek, sertifikasi, dan soft skills juga sangat penting untuk meningkatkan peluang kerja."
+        "a": "IPK tinggi memang membantu, tapi pengalaman magang, proyek, sertifikasi, dan soft skills juga sangat penting untuk meningkatkan peluang kerja.",
+        "emoji": "🎓",
     },
     {
         "q": "Seberapa penting magang untuk fresh graduate?",
-        "a": "Magang sangat penting karena memberikan pengalaman kerja nyata yang dicari perusahaan. Magang juga membantu membangun jaringan dan memahami dunia kerja."
+        "a": "Magang sangat penting karena memberikan pengalaman kerja nyata yang dicari perusahaan. Magang juga membantu membangun jaringan dan memahami dunia kerja.",
+        "emoji": "🛠️",
     },
     {
         "q": "Apakah aktif organisasi kampus berpengaruh pada peluang kerja?",
-        "a": "Ya, aktif organisasi menunjukkan kemampuan komunikasi dan leadership yang menjadi nilai tambah di mata perekrut."
+        "a": "Ya, aktif organisasi menunjukkan kemampuan komunikasi dan leadership yang menjadi nilai tambah di mata perekrut.",
+        "emoji": "🤝",
     },
     {
         "q": "Bagaimana jika IPK saya sedang tapi pengalaman magang dan proyek banyak?",
-        "a": "Peluang tetap besar! Data menunjukkan pengalaman magang dan proyek bisa mengimbangi IPK yang sedang."
+        "a": "Peluang tetap besar! Data menunjukkan pengalaman magang dan proyek bisa mengimbangi IPK yang sedang.",
+        "emoji": "⚖️",
     },
     {
         "q": "Apakah pelatihan penempatan kerja benar-benar membantu?",
-        "a": "Iya, pelatihan seperti simulasi interview dan pembuatan CV terbukti meningkatkan peluang diterima kerja."
+        "a": "Iya, pelatihan seperti simulasi interview dan pembuatan CV terbukti meningkatkan peluang diterima kerja.",
+        "emoji": "📚",
     },
     {
         "q": "Bagaimana cara meningkatkan soft skills?",
-        "a": "Ikut organisasi, aktif di kelas, ikut pelatihan komunikasi, dan sering latihan presentasi atau kerja kelompok adalah cara efektif meningkatkan soft skills."
+        "a": "Ikut organisasi, aktif di kelas, ikut pelatihan komunikasi, dan sering latihan presentasi atau kerja kelompok adalah cara efektif meningkatkan soft skills.",
+        "emoji": "💬",
     },
     {
         "q": "Apa yang harus dilakukan jika hasil prediksi peluang kerja saya rendah?",
-        "a": "Fokuslah menambah pengalaman magang, proyek, sertifikasi, aktif organisasi, dan ikuti pelatihan penempatan untuk meningkatkan peluang kerja."
-    }
+        "a": "Fokuslah menambah pengalaman magang, proyek, sertifikasi, aktif organisasi, dan ikuti pelatihan penempatan untuk meningkatkan peluang kerja.",
+        "emoji": "🚀",
+    },
 ]
 
 for item in faq_list:
-    with st.expander(f"❓ {item['q']}"):
-        st.write(item['a'])
+    with st.expander(f"{item['emoji']} {item['q']}", expanded=False):
+        st.markdown(
+            f"""
+            <div class="faq-card">
+                <div class="faq-question">{item['emoji']} {item['q']}</div>
+                <div class="faq-answer">{item['a']}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
 st.markdown(
     """
@@ -227,5 +380,6 @@ st.markdown(
     <center>
     <small>© 2025 | Data Mining & Machine Learning | Chaerul Hidayat & Reza Maulana</small>
     </center>
-    """, unsafe_allow_html=True
+    """,
+    unsafe_allow_html=True,
 )
