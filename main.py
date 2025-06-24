@@ -378,7 +378,7 @@ st.markdown(
     """
     <hr>
     <center>
-    <small>© 2025 | Data Mining & Machine Learning | Chaerul Hidayat & Reza Maulana</small>
+    <small>© 2025 | Data Mining & Machine Learning | Chaerul Hidayat & Muhammad Reza Maulana</small>
     </center>
     """,
     unsafe_allow_html=True,
